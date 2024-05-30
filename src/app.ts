@@ -3,15 +3,12 @@ import morgan from "morgan";
 // 限制请求频率
 import ratelimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
-import xss from "xss-clean";
+// import xss from "xss-clean"; //防止xss攻击
 import helmet from "helmet";
 import hpp from "hpp";
 // 引入AppError类，用于处理应用错误
 // import AppError from "./utils/appError";
-// // 引入tourRoutes和userRoutes模块
-// import tourRouter from "./routes/tourRoutes";
 // import userRouter from "./routes/userRoutes";
-// import reviewRouter from "./routes/reviewRoutes";
 // // 引入全局错误处理模块
 // import globalErrorHandler from "./controllers/errorController";
 // 创建express实例
@@ -36,15 +33,15 @@ app.use(express.json({limit: "10kb"}));
 // 清理数据 防止跨脚本攻击 去除用户输入中的特殊字符 如$
 app.use(mongoSanitize());
 // 清理数据 防止跨站脚本攻击
-app.use(xss()); //去除html文本
+// app.use(xss()); //去除html文本
 // 使用express的静态文件中间件，将public文件夹作为静态文件服务器
 app.use(express.static(`${__dirname}/public`));
 // 清理数据 去除查询字符串中重复的参数
-app.use(
-    hpp({
-        whitelist: ["discount", "ratingsQuantity", "ratingsAverage ", "duration", "maxGroupSize", "difficulty", "price"] // 设置白名单，允许的参数
-    })
-); //去除查询字符串中多余的参数
+// app.use(
+//     hpp({
+//         whitelist: ["discount", "ratingsQuantity", "ratingsAverage ", "duration", "maxGroupSize", "difficulty", "price"] // 设置白名单，允许的参数
+//     })
+// ); //去除查询字符串中多余的参数
 // 记录请求时间 测试中间件
 // app.use((req, res, next) => {
 //     req.requestTime = new Date().toISOString();
